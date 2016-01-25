@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>Rationale to implementation of Drawpad</title>
+</head>
+<body>
+
+<p>There are two major classes in the Drawpad package: <i>DrawPad</i> and <i>OpenDrawPad</i>.  The
+first class contains all the necessary instructions to draw and to construct the GUI that is the heart
+of the Drawpad application.  The second contains methods which make a call to the ones contained inside
+the <i>DrawPad</i> class.</p>
+
+<p>To function properly, Drawpad requires the presence of an Observable and an Observer.  To demonstrate
+the use of Drawpad, we have provided a simple test class <i>StartDraw</i>.  This class is at the same
+time an observer and observable.  It observes an instance of <i>OpenDrawPad</i> while at the same time
+being observed by the same instance.  When users draw in the pad, it notifies all of its observers, via
+the instance of <i>OpenDrawPad</i> that a line is to be drawn from point A to point B.  <i>StartDraw</i>
+receives this message and notifies all of its observers of the fact that a line must be drawn from point
+A to point B.  Since <i>OpenDrawPad</i> is the observer it notifies the pad to draw the line.  Although 
+this may seem a little redundant (and indeed it is when using StartDraw), this type of a system
+is handy in the case of client-server applications using DrawPad.</p>
+
+<p>When drawing, Drawpad always uses lines.  Therefore, it always sends two points to its observers via
+the #linedraw command.  Anytime a #linedraw command is received by the pad, it draws a line between the
+two specified points.  Note that when a point is to be drawn, the two points in the #linedraw command
+are identical.  Users have the option of drawing freehand or straight lines.  The straight lines can
+be created by double clicking in one area.  If a previous point had been placed on the pad, a straight
+line will be drawn to the current location of the mouse from that point.  The timing delay is 400ms and
+the user may move the mouse no more than 10 pixels in either direction of the first click for the program
+to recognize the input as a double-click.</p>
+
+<p>Drawpad utilizes adapter classes to avoid having anonymous ones.  These are useful for cases when
+the users moves the mouse, selects a menu item, etc.</p>
+
+</body>
+</html>
